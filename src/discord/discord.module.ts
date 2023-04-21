@@ -5,7 +5,7 @@ import { Client, Events, IntentsBitField, Message, SlashCommandBuilder } from 'd
 
 const discordProvider = {
   provide: 'discord-provider',
-  useFactory: () => {
+  useFactory: async () => {
 
     const intent = new IntentsBitField();
     intent.add([1, 512, 4096, 32768]);
@@ -13,7 +13,8 @@ const discordProvider = {
     const cmd = new SlashCommandBuilder().setName('gpt').setDescription('Chat gpt camilo');
 
     const client = new Client({ intents: intent, rest: { version: '10' } });
-    client.login('MTA5MDk0MzIzMDYzNzUxODg0OA.Gn_iG5.qI_Tc7LkeTfJko4HoHDrcUQDkcjGhVo8Dyrorw');
+    const discordToken= process.env.DISCORD_TOKEN
+    await client.login(discordToken);
     client.on('messageCreate', (msg: Message) => {
       if (msg.author.username.toLowerCase() == 'noway' && msg.channelId == '721133700594794577') {
         msg.reply({
